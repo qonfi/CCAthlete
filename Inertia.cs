@@ -1,4 +1,4 @@
-﻿//using System.Collections;
+//using System.Collections;
 //using System.Collections.Generic;
 using UnityEngine;
 //using UnityEngine.SceneManagement;
@@ -22,7 +22,6 @@ namespace CCAthlete
         #region
         private CharacterController character;
         private GroundDetectorSphere detector;
-        public GameObject RelativeGround { get; private set; }
         private VelocityMeasurer measurer;
         private Vector3 translating;
         #endregion
@@ -40,12 +39,11 @@ namespace CCAthlete
         private void FixedUpdate()
         {
             if (detector.OnGround == false) { return; }
-            RelativeGround = detector.LastDetectedObject;
-            if (RelativeGround == null) { return; }
 
+            GameObject relativeGround = detector.LastDetectedObject;
+            if (relativeGround == null) { return; }
 
-            Vector3 positionInThisFrame = RelativeGround.transform.position;
-            measurer.CurrentPosition = positionInThisFrame;
+            measurer.UpdateCurrentInfo(relativeGround);
 
 
             Debug.Log(detector.LastDetectedObject + " was last :" + measurer.LastPosition + " current " + measurer.CurrentPosition);
@@ -53,14 +51,16 @@ namespace CCAthlete
 
 
             // FixedUpdate の最後に。
-            measurer.LastPosition = positionInThisFrame;
+            measurer.UpdateLastInfo(relativeGround);
         }
 
 
         private void InertialMove()
         {
-            
-            translating = VelocityMeasurer.CalcTranslatingPerFixedUpdate(measurer.LastPosition, measurer.CurrentPosition);
+            if (measurer.CurrentObject == measurer.LastObject)
+            {
+                translating = VelocityMeasurer.CalcTranslatingPerFixedUpdate(measurer.LastPosition, measurer.CurrentPosition);
+            }
 
             //Debug.Log(translating);
             // 50 を乗算するとちょうどいいが、なぜなのかわからぬい。
@@ -71,15 +71,31 @@ namespace CCAthlete
 
         private class VelocityMeasurer
         {
-            // position ではダメだ。前フレームと現フレームでオブジェクトが違う場合検知できない。gameobjectに書き換える。
             public Vector3 LastPosition { get; set; }
+            public GameObject LastObject { get; set; }
+
             public Vector3 CurrentPosition { get; set; }
+            public GameObject CurrentObject { get; set; }
+
+
+            public void  UpdateCurrentInfo(GameObject currentObject)
+            {
+                this.CurrentObject = currentObject;
+                this.CurrentPosition = currentObject.transform.position;
+            }
+
+
+            public void UpdateLastInfo(GameObject lastObject)
+            {
+                this.LastObject = lastObject;
+                this.LastPosition = lastObject.transform.position;
+            }
 
 
             public static Vector3 CalcTranslatingPerFixedUpdate(Vector3 lastPosition, Vector3 currentPosition)
             {
                 Vector3 lastToCurrent = currentPosition - lastPosition;
-                
+
                 return lastToCurrent;
             }
         }
