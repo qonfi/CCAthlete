@@ -8,6 +8,10 @@ using UnityEngine;
 
 namespace CCAthlete
 {
+
+    /// <summary>
+    /// SphereCast によって接地判定を行う。
+    /// </summary>
     public class GroundDetectorSphere : MonoBehaviour
     {
         #region

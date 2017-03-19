@@ -29,7 +29,8 @@ namespace CCAthlete
 
         private void FixedUpdate()
         {
-            character.SimpleMove(
+            // SimpleMove ではダメか
+            character.Move(
                 transform.forward * Input.GetAxis("Vertical") * FrontBackWalkSpeed +
                 transform.right * Input.GetAxis("Horizontal") * SideWalkSpeed
                 );

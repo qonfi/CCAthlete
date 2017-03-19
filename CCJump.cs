@@ -13,7 +13,7 @@ namespace CCAthlete
         public bool Jumping { get; set; }
         public float UpwardPower { get; set; }
         private CharacterController character;
-        private CCGroundDetector detector;
+        private GroundDetectorSphere detector;
         private LandingChecker landingChecker;
 
 
@@ -22,7 +22,7 @@ namespace CCAthlete
             Jumping = false;
             UpwardPower = 0.16f;
             character = GetComponent<CharacterController>();
-            detector = GetComponent<CCGroundDetector>();
+            detector = GetComponent<GroundDetectorSphere>();
             landingChecker = new LandingChecker(detector, this);
         }
 
@@ -49,11 +49,11 @@ namespace CCAthlete
         private class LandingChecker
         {
             public bool HasTakenOff { get; private set; }
-            private CCGroundDetector detector;
+            private GroundDetectorSphere detector;
             private CCJump ccJump;
 
 
-            public LandingChecker(CCGroundDetector _detector, CCJump _ccJump)
+            public LandingChecker(GroundDetectorSphere _detector, CCJump _ccJump)
             {
                 this.detector = _detector;
                 this.ccJump = _ccJump;
