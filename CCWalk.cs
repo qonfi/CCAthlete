@@ -29,10 +29,10 @@ namespace CCAthlete
 
         private void FixedUpdate()
         {
-            // SimpleMove ではダメか
+            // テスト中 !!
             character.Move(
-                transform.forward * Input.GetAxis("Vertical") * FrontBackWalkSpeed +
-                transform.right * Input.GetAxis("Horizontal") * SideWalkSpeed
+                transform.forward * Input.GetAxis("Vertical") * FrontBackWalkSpeed * 0.02f+
+                transform.right * Input.GetAxis("Horizontal") * SideWalkSpeed * 0.02f
                 );
         }
     }

@@ -16,7 +16,7 @@ namespace CCAthlete
     public class CCGravitySimulator : MonoBehaviour
     {
         #region
-        CCGroundDetector detector;
+        GroundDetectorSphere detector;
         CharacterController character;
         public float FloatingTime { get; set; }
         public float FallAmount { get; set; }
@@ -26,7 +26,7 @@ namespace CCAthlete
 
         private void Start()
         {
-            detector = GetComponent<CCGroundDetector>();
+            detector = GetComponent<GroundDetectorSphere>();
             character = GetComponent<CharacterController>();
         }
 

@@ -12,6 +12,9 @@ using UnityEngine;
 // 最後に与えられた力を適用しながら減速していく(慣性による移動の継続、空気抵抗による減速、重力による落下)
 // 慣性で与えられた力がなくなる前に設置した場合、接地後にその力の数分の1 ぐらいが与えられる？
 // 
+// 重力は自力で実装する。SimpleMove はジャンプが実装できないので使用しない。
+// 垂直水平を問わず微振動が起こることがあるのは、1フレーム内で複数のスクリプトから複数回Moveを読んでいるからかも。
+// プラスマイナス勘定が終わってからまとめてMove すれば微振動しないかも？
 #endregion
 
 namespace CCAthlete
@@ -46,7 +49,7 @@ namespace CCAthlete
             measurer.UpdateCurrentInfo(relativeGround);
 
 
-            Debug.Log(detector.LastDetectedObject + " was last :" + measurer.LastPosition + " current " + measurer.CurrentPosition);
+            // Debug.Log(detector.LastDetectedObject + " was last :" + measurer.LastPosition + " current " + measurer.CurrentPosition);
             InertialMove();
 
 
