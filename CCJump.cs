@@ -1,19 +1,22 @@
 ﻿//using System.Collections;
 //using System.Collections.Generic;
-using UnityEngine;
 //using UnityEngine.SceneManagement;
 //using UnityEngine.Networking; // with NetworkBehaviour
 //using UnityEngine.UI;
-//
+using UnityEngine;
 
 namespace CCAthlete
 {
+    /// <summary>
+    /// <para></para> CharacterController にジャンプ機能を与えるコンポーネント。
+    /// <para></para> Depends on... 
+    /// <para></para> Is depended on... 
+    /// </summary>
     public class CCJump : MonoBehaviour
     {
         public bool Jumping { get; set; }
         public float UpwardPower { get; set; }
         private CharacterController character;
-        private CCGroundDetector detector;
         private LandingChecker landingChecker;
 
 
@@ -22,8 +25,8 @@ namespace CCAthlete
             Jumping = false;
             UpwardPower = 0.16f;
             character = GetComponent<CharacterController>();
-            detector = GetComponent<CCGroundDetector>();
-            landingChecker = new LandingChecker(detector, this);
+            
+            landingChecker = new LandingChecker(GetComponent<GroundDetectorSphere>(), this);
         }
 
 
@@ -49,11 +52,11 @@ namespace CCAthlete
         private class LandingChecker
         {
             public bool HasTakenOff { get; private set; }
-            private CCGroundDetector detector;
+            private GroundDetectorSphere detector;
             private CCJump ccJump;
 
 
-            public LandingChecker(CCGroundDetector _detector, CCJump _ccJump)
+            public LandingChecker(GroundDetectorSphere _detector, CCJump _ccJump)
             {
                 this.detector = _detector;
                 this.ccJump = _ccJump;
